@@ -9,7 +9,8 @@
       <section style="padding-top: 100px;">
         <div class="row p-4 text-left">
           <div class="col-4 offset-4">
-            <form id="signupform" action="/" method="POST" novalidate>
+            <form id="signupform" action="/user/signup/request" method="POST" novalidate>
+              {% csrf_token %}
               <div class="form-group">
                 <label for="id">ユーザーID</label>
                 <input type="text" name="id" id="id" class="form-control" aria-describedby="idHelp" placeholder="ユーザーIDを入力してください" data-validation-engine="validate[required,custom[onlyLetterNumber]">
@@ -17,7 +18,7 @@
               </div>
               <div class="form-group">
                 <label for="password">パスワード</label>
-                <input type="text" name="password" id="password" class="form-control" aria-describedby="paswwordHelp" placeholder="パスワードを入力してください" data-validation-engine="validate[required,minSize[8],custom[onlyLetterNumber]]">
+                <input type="text" name="password" id="password" class="form-control" aria-describedby="paswwordHelp" placeholder="パスワードを入力してください" data-validation-engine="validate[required,minSize[8],custom[onlyLetterNumber],custom[mixedPassword]]">
                 <small id="passwordHelp" class="form-text text-muted">英数半角混在し8文字以上で入力してください</small>
               </div>
               <div class="form-group">

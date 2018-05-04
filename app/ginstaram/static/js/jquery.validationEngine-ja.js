@@ -137,6 +137,10 @@
                 },
                 "validate2fields": {
                     "alertText": "* 『HELLO』と入力してください"
+                },
+                "mixedPassword": {
+                    "regex": /^(?=.*?[a-z])(?=.*?\d)[a-z\d]{8,100}$/,
+                    "alertText": "* パスワードは半角英数混在にしてください"
                 }
             };
             
