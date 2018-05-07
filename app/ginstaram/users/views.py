@@ -8,12 +8,15 @@ import datetime
 
 def index(request):
     username = request.session.get('username')
-    profile = Profile.objects.get(username=username)
-    profileData = {
-    'username': profile.username,
-    'picture': profile.picture
-    }
-    return render(request, 'users/index.html', profileData)
+    if username:
+        profile = Profile.objects.get(username=username)
+        profileData = {
+        'username': profile.username,
+        'picture': profile.picture
+        }
+        return render(request, 'users/index.html', profileData)
+    else:
+        return HttpResponseRedirect(reverse('login'))
 
 def signup(request):
     error = request.session.get('error')
@@ -45,9 +48,35 @@ def pictureRequest(request):
     profile.save()
     return HttpResponseRedirect(reverse('index'))
 
+def login(request):
+    if request.session.get('username'):
+        return HttpResponseRedirect(reverse('logout'))
+    error = request.session.get('error')
+    if error:   
+        del request.session['error']
+    return render(request, 'users/login.html', {'error':error} )
+
+def loginRequest(request):
+    username = request.POST.get('username')
+    rawPassword = request.POST.get('password')
+    password = hashlib.sha256(rawPassword.encode('utf-8')).hexdigest()
+    profile = Profile.objects.filter(username=username, password=password).first()
+    if profile:
+        request.session['username'] = profile.username 
+        return HttpResponseRedirect(reverse('index'))
+    else:
+        request.session['error'] = 'IDとパスワードが一致しません'
+        return HttpResponseRedirect(reverse('login'))
+
+def logout(request):
+    if request.session.get('username'):
+        del request.session['username']
+    return HttpResponseRedirect(reverse('index'))
+
 def save_picture_file(f):
     filename = 'static/picture/' + datetime.datetime.today().strftime('%s') + f.name
     with open(filename, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
     return "/" + filename
+
