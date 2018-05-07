@@ -29,7 +29,7 @@ def signupRequest(request):
         return HttpResponseRedirect(reverse('signup'))
     else:            
         password = hashlib.sha256(rawPassword.encode('utf-8')).hexdigest() 
-        creation = Profile(username=username, password=password)
+        creation = Profile(username=username, password=password, picture='/static/img/dummy.png')
         creation.save()
         request.session['username'] = username
         return HttpResponseRedirect(reverse('index'))
