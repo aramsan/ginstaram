@@ -1,58 +1,19 @@
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Ginstagram</title>
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
-  </head>
-  <body>
-    <header>
-      <nav class="navbar navbar-light bg-light box-shadow fixed-top scrolling-navbar">
-        <a class="navbar-brand" hred="#">
-          Ginstagram
-        </a>
-        <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
-          <li class="nav-item">
-            <a class="nav-link p-2" href="#">投稿</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link p-2" href="#">ディスカバリー</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link p-2" href="#">ディスカバリー</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link p-2" href="#">プロフィール</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link p-2" href="#">ログアウト</a>
-          </li>
-        </ul>
-      </nav>
-    </header>
-    <main>
+{% extends "base/base.html" %}
+{% block contents %}
       <!-- profile section-->
-      <section style="padding-top: 100px;">
+      <section>
         <div class="container">
           <div class="row p-5">
             <div class="col-4 text-center">
-              <img src="https://placehold.jp/200x200.png">
-              <div>
-                プロフィール画像変更ボタン
+              <img src="{{ picture }}" style="width:200px; height:200px; object-fit: cover;">
+              <div class="pt-2">
+                <a href="/users/picture" class="btn btn-outline-secondary">プロフィール画像変更</a>
               </div>
             </div>
             <div class="col-8">
               <div class="row text-left">
                 <div class="col-12">
-                  <h1>ユーザーID</h1>
+                  <h1>{{ username }}</h1>
                 </div>
               </div>
               <div class="row text-left">
@@ -119,7 +80,5 @@
           </div>
         </div>
       </section>
-     <!-- /picture list section--> 
-    </main>
-  </body>
-</html>
+     <!-- /picture list section-->
+{% endblock contents %}

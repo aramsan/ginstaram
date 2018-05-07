@@ -1,0 +1,40 @@
+{% extends "base/base.html" %}
+{% block contents %}
+      <script>
+        $(function(){
+          jQuery("#signupform").validationEngine();
+        });
+      </script>
+      <!-- profile section-->
+      <section>
+        {% if error %}
+        <div class="row p-4 text-left">
+          <div class="col-6 offset-3">
+            <div class="alert alert-danger">{{ error }}</div>
+          </div>
+        </div>
+        {% endif %}
+        <div class="row p-4 text-left">
+          <div class="col-4 offset-4">
+            <form id="signupform" action="/users/signup/request" method="POST" novalidate>
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="username">ユーザーID</label>
+                <input type="text" name="username" id="username" class="form-control" aria-describedby="usernameHelp" placeholder="ユーザーIDを入力してください" data-validation-engine="validate[required,custom[onlyLetterNumber]">
+                <small id="usernameHelp" class="form-text text-muted">半角英数字でIDを入力してください</small>
+              </div>
+              <div class="form-group">
+                <label for="password">パスワード</label>
+                <input type="password" name="password" id="password" class="form-control" aria-describedby="paswwordHelp" placeholder="パスワードを入力してください" data-validation-engine="validate[required,minSize[8],custom[onlyLetterNumber],custom[mixedPassword]]">
+                <small id="passwordHelp" class="form-text text-muted">英数半角混在し8文字以上で入力してください</small>
+              </div>
+              <div class="form-group">
+                <input type="submit" value="設定" class="btn btn-primary form-control">
+              </div>
+            </form> 
+          </div>
+        </div>
+      </section>
+      <!-- /profile section-->
+ 
+{% endblock contents %}

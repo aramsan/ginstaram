@@ -1,0 +1,34 @@
+{% extends "base/base.html" %}
+{% block contents %}
+      <script>
+        $(function(){
+          jQuery("#pictureform").validationEngine();
+        });
+      </script>
+      <!-- profile section-->
+      <section>
+        {% if error %}
+        <div class="row p-4 text-left">
+          <div class="col-6 offset-3">
+            <div class="alert alert-danger">{{ error }}</div>
+          </div>
+        </div>
+        {% endif %}
+        <div class="row p-4 text-left">
+          <div class="col-6 offset-3">
+            <form id="pictureform" action="/users/picture/request" method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="usersPicture">プロフィール画像を選択してください</label>
+                <input type="file" name="picture" id="usersPicture" class="form-control-file" required>
+              </div>
+              <div class="form-group mt-3">
+                <input type="submit" value="設定" class="btn btn-primary form-control">
+              </div>
+            </form> 
+          </div>
+        </div>
+      </section>
+      <!-- /profile section-->
+ 
+{% endblock contents %}
