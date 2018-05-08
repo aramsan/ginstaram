@@ -2,24 +2,26 @@
 {% block contents %}
       <!-- timeline section-->
       <section>
+        {% for post in post_list %}
         <div class="row p-4 text-lefti">
           <div class ="col-4 offset-4">
             <div class="card">
               <ul class="list-group list-group-flush">
-                <li class="list-group-item"><img src="https://placehold.jp/32x32.png" class="pr-3">username</li>
+                <li class="list-group-item"><img src="{{ post.author.picture }}" class="pr-3">{{ post.author.username }}</li>
               </ul>
-              <img class="card-img" src="https://placehold.jp/800x800.png">
+              <img class="card-img" src="{{ post.picture }}">
               <div class="card-body">
                 <div><a href="#" class="pr-2 text-dark">いいね！</a><a href="#" class="text-dark">コメント</a></div>
-                <div class="pb-2"><span class="mr-2">いいね！</span>999件</div>
-                <div><span class="mr-2">username</span>コメントコメントコメント</div>
-                <div><span class="mr-2">username</span>コメントコメントコメント</div>
-                <div><span class="mr-2">username</span>コメントコメントコメント</div>
-                <div class="pt-2"><small><span class="text-secondary">3時間前</span></small></div>
-              </ul>
+                <div class="pb-2"><span class="mr-2">いいね！</span>{{ post.like }}件</div>
+                {% for comment in post.comment %}
+                <div><span class="mr-2">{{ comment.username }}</span>{{ comment.comment }}</div>
+                {% endfor %}
+                <div class="pt-2"><small><abbr class="timeago text-secondary" title="{{ post.time }}">更新時間</abbr></small></div>
+              </div>
             </div>
           </div>
         </div>
+        {% endfor %}
       </section>
       <!-- /timeline section-->
 
