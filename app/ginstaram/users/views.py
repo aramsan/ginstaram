@@ -63,7 +63,7 @@ def loginRequest(request):
     profile = Profile.objects.filter(username=username, password=password).first()
     if profile:
         request.session['username'] = profile.username 
-        return HttpResponseRedirect(reverse('index'))
+        return HttpResponseRedirect(reverse('timeline'))
     else:
         request.session['error'] = 'IDとパスワードが一致しません'
         return HttpResponseRedirect(reverse('login'))
@@ -80,3 +80,10 @@ def save_picture_file(f):
             destination.write(chunk)
     return "/" + filename
 
+def user(request, displayUsername):
+    profile = Profile.objects.get(username=displayUsername)
+    profileData = {
+    'username': profile.username,
+    'picture': profile.picture
+    }
+    return render(request, 'users/index.html', profileData)
