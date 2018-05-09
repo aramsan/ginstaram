@@ -7,7 +7,7 @@
           <div class ="col-4 offset-4">
             <div class="card">
               <ul class="list-group list-group-flush">
-                <li class="list-group-item"><img src="{{ post.author.picture }}" class="pr-3">{{ post.author.username }}</li>
+                <li class="list-group-item"><a href="/users/{{ post.author.username }}" class="text-dark"><img src="{{ post.author.picture }}" class="img-32 mr-3">{{ post.author.username }}</a></li>
               </ul>
               <img class="card-img" src="{{ post.picture }}">
               <div class="card-body">
