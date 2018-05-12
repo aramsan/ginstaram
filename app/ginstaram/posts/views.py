@@ -48,3 +48,7 @@ def timeline(request):
         },
     ]
     return render(request, 'posts/timeline.html', {'post_list':post_list})
+
+def post(request):
+    error =""
+    return render(request, 'posts/post.html', {'error': error})
