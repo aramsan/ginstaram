@@ -17,4 +17,6 @@ tests/.coverage
 build/
 tests/report/
 app/ginstaram/static/picture/
+app/ginstaram/static/profile/
+
 

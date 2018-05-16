@@ -1,4 +1,9 @@
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from .models import Post
+
+import datetime
 
 def timeline(request):
     post_list = [ 
@@ -52,3 +57,17 @@ def timeline(request):
 def post(request):
     error =""
     return render(request, 'posts/post.html', {'error': error})
+
+def postRequest(request):
+    filename = save_picture_file(request.FILES['picture'])
+    creation = Post(picture=filename,text=request.POST.get('text'),like=0);
+    creation.save()
+    return HttpResponseRedirect(reverse('timeline'))
+
+
+def save_picture_file(f):
+    filename = 'static/profile/' + datetime.datetime.today().strftime('%s') + f.name
+    with open(filename, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+    return "/" + filename
