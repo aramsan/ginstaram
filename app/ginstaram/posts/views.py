@@ -2,56 +2,13 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .models import Post
+from users.models import Profile
 
 import datetime
 
 def timeline(request):
-    post_list = [ 
-        {
-            'author':{'username':"user1",'picture':"https://placehold.jp/32x32.png"},
-            'picture':"https://placehold.jp/800x800.png",
-            'like':25,
-            'time':"2018-05-10 20:00:00",
-            'comment':[
-                { 'username':"user1", 'comment':"フォトジェニック"} ,
-                { 'username':"user2", 'comment':"面白い"} ,
-                { 'username':"user3", 'comment':"かっこいい"} ,
-            ],
-        },
-        {
-            'author':{'username':"user1",'picture':"https://placehold.jp/32x32.png"},
-            'picture':"https://placehold.jp/800x800.png",
-            'like':25,
-            'time':"2018-05-09 20:00:00",
-            'comment':[
-                { 'username':"user1", 'comment':"フォトジェニック"} ,
-                { 'username':"user2", 'comment':"面白い"} ,
-                { 'username':"user3", 'comment':"かっこいい"} ,
-            ],
-        },
-        {
-            'author':{'username':"user1",'picture':"https://placehold.jp/32x32.png"},
-            'picture':"https://placehold.jp/800x800.png",
-            'like':25,
-            'time':"2018-05-08 20:00:00",
-            'comment':[
-                { 'username':"user1", 'comment':"フォトジェニック"} ,
-                { 'username':"user2", 'comment':"面白い"} ,
-                { 'username':"user3", 'comment':"かっこいい"} ,
-            ],
-        },
-        {
-            'author':{'username':"user1",'picture':"https://placehold.jp/32x32.png"},
-            'picture':"https://placehold.jp/800x800.png",
-            'like':25,
-            'time':"2018-05-07 20:00:00",
-            'comment':[
-                { 'username':"user1", 'comment':"フォトジェニック"} ,
-                { 'username':"user2", 'comment':"面白い"} ,
-                { 'username':"user3", 'comment':"かっこいい"} ,
-            ],
-        },
-    ]
+    userid = request.session.get('userid')
+    post_list = Post.objects.filter(author=userid).order_by('-postid');
     return render(request, 'posts/timeline.html', {'post_list':post_list})
 
 def post(request):
@@ -59,8 +16,9 @@ def post(request):
     return render(request, 'posts/post.html', {'error': error})
 
 def postRequest(request):
+    userid = request.session.get('userid')
     filename = save_picture_file(request.FILES['picture'])
-    creation = Post(picture=filename,text=request.POST.get('text'),like=0);
+    creation = Post(picture=filename,text=request.POST.get('text'),like=0,author=Profile(id=userid));
     creation.save()
     return HttpResponseRedirect(reverse('timeline'))
 

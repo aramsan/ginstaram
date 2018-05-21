@@ -35,6 +35,7 @@ def signupRequest(request):
         creation = Profile(username=username, password=password, picture='/static/img/dummy.png')
         creation.save()
         request.session['username'] = username
+        request.session['userid'] = creation.id
         return HttpResponseRedirect(reverse('index'))
 
 def picture(request):
@@ -62,7 +63,8 @@ def loginRequest(request):
     password = hashlib.sha256(rawPassword.encode('utf-8')).hexdigest()
     profile = Profile.objects.filter(username=username, password=password).first()
     if profile:
-        request.session['username'] = profile.username 
+        request.session['username'] = profile.username
+        request.session['userid'] = profile.id
         return HttpResponseRedirect(reverse('timeline'))
     else:
         request.session['error'] = 'IDとパスワードが一致しません'
@@ -71,6 +73,8 @@ def loginRequest(request):
 def logout(request):
     if request.session.get('username'):
         del request.session['username']
+    if request.session.get('userid'):
+        del request.session['userid']
     return HttpResponseRedirect(reverse('index'))
 
 def save_picture_file(f):
