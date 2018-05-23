@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .models import Profile
+from posts.models import Post
 
 import hashlib
 import datetime
@@ -86,8 +87,10 @@ def save_picture_file(f):
 
 def user(request, displayUsername):
     profile = Profile.objects.get(username=displayUsername)
+    post_list = Post.objects.filter(author=profile.id).order_by('-postid');
     profileData = {
     'username': profile.username,
-    'picture': profile.picture
+    'picture': profile.picture,
+    'post_list': post_list
     }
     return render(request, 'users/index.html', profileData)
