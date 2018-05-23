@@ -2,6 +2,7 @@
 {% block contents %}
       <!-- timeline section-->
       <section>
+        {% if post_list %}
         {% for post in post_list %}
         <div class="row p-4 text-lefti">
           <div class ="col-4 offset-4">
@@ -23,6 +24,16 @@
           </div>
         </div>
         {% endfor %}
+        {% else %} 
+        <div "row p-5">
+          <div class="col-6 offset-3 text-center">
+            <div class="jumbotron jumbotron-fluid">
+              <div class="container">
+                <p class="lead"><a href="/post">投稿</a>して他のユーザーに見つけてもらおう</p>
+              </div>
+            </div>
+          </div>
+        {% endif %}
       </section>
       <!-- /timeline section-->
 

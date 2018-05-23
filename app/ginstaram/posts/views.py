@@ -12,8 +12,13 @@ def timeline(request):
     return render(request, 'posts/timeline.html', {'post_list':post_list})
 
 def post(request):
-    error =""
-    return render(request, 'posts/post.html', {'error': error})
+    userid = request.session.get('userid')
+    if userid: 
+        error =""
+        return render(request, 'posts/post.html', {'error': error})
+    else:
+        request.session['error'] = "投稿するにはログインしてください"
+        return HttpResponseRedirect(reverse('login'))
 
 def postRequest(request):
     userid = request.session.get('userid')

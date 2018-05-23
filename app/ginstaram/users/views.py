@@ -11,9 +11,12 @@ def index(request):
     username = request.session.get('username')
     if username:
         profile = Profile.objects.get(username=username)
+        post_list = Post.objects.filter(author=profile.id).order_by('-postid');
         profileData = {
+        'is_mypage': True,
         'username': profile.username,
-        'picture': profile.picture
+        'picture': profile.picture,
+        'post_list': post_list
         }
         return render(request, 'users/index.html', profileData)
     else:
