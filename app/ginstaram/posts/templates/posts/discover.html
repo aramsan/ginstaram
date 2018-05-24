@@ -1,0 +1,17 @@
+{% extends "base/base.html" %}
+{% block contents %}
+      <!-- discover section-->
+      <section>
+        <div class="container">
+          <div class="row text-center p-5">
+            {% for post in post_list %}
+            <div class="col-4">
+              <a href="/users/{{ post.author.username }}"><img src="{{ post.picture }}" class="img-200 mb-5"></a>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+      <!-- /discover section-->
+
+{% endblock contents %}

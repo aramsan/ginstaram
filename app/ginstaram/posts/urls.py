@@ -6,4 +6,5 @@ urlpatterns = [
      path('', views.timeline, name='timeline'),
      path('post', views.post, name='post'),
      path('post/request', views.postRequest, name='postRequest'),
+     path('discover', views.discover, name='discover'),
 ]
