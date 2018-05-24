@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .models import Profile
+from posts.models import Post
 
 import hashlib
 import datetime
@@ -10,9 +11,12 @@ def index(request):
     username = request.session.get('username')
     if username:
         profile = Profile.objects.get(username=username)
+        post_list = Post.objects.filter(author=profile.id).order_by('-postid');
         profileData = {
+        'is_mypage': True,
         'username': profile.username,
-        'picture': profile.picture
+        'picture': profile.picture,
+        'post_list': post_list
         }
         return render(request, 'users/index.html', profileData)
     else:
@@ -35,6 +39,7 @@ def signupRequest(request):
         creation = Profile(username=username, password=password, picture='/static/img/dummy.png')
         creation.save()
         request.session['username'] = username
+        request.session['userid'] = creation.id
         return HttpResponseRedirect(reverse('index'))
 
 def picture(request):
@@ -62,7 +67,8 @@ def loginRequest(request):
     password = hashlib.sha256(rawPassword.encode('utf-8')).hexdigest()
     profile = Profile.objects.filter(username=username, password=password).first()
     if profile:
-        request.session['username'] = profile.username 
+        request.session['username'] = profile.username
+        request.session['userid'] = profile.id
         return HttpResponseRedirect(reverse('timeline'))
     else:
         request.session['error'] = 'IDとパスワードが一致しません'
@@ -71,6 +77,8 @@ def loginRequest(request):
 def logout(request):
     if request.session.get('username'):
         del request.session['username']
+    if request.session.get('userid'):
+        del request.session['userid']
     return HttpResponseRedirect(reverse('index'))
 
 def save_picture_file(f):
@@ -82,8 +90,10 @@ def save_picture_file(f):
 
 def user(request, displayUsername):
     profile = Profile.objects.get(username=displayUsername)
+    post_list = Post.objects.filter(author=profile.id).order_by('-postid');
     profileData = {
     'username': profile.username,
-    'picture': profile.picture
+    'picture': profile.picture,
+    'post_list': post_list
     }
     return render(request, 'users/index.html', profileData)

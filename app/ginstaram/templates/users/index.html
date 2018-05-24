@@ -35,48 +35,23 @@
       <section>
         <div class="container">
           <div class="row text-center p-5">
+            {% if post_list %}
+              {% for post in post_list %}
             <div class="col-4">
-              <img src="https://placehold.jp/200x200.png">
+              <img src="{{ post.picture }}" class="img-200 mb-5">
             </div>
-            <div class="col-4">
-              <img src="https://placehold.jp/200x200.png">
+              {% endfor %}
+            {% else %}
+              {% if is_mypage %}
+            <div class="col-6 offset-3 text-center">
+              <div class="jumbotron jumbotron-fluid">
+                <div class="container">
+                  <p class="lead"><a href="/post">投稿</a>して他のユーザーに見つけてもらおう</p>
+                </div>
+              </div>
             </div>
-            <div class="col-4">
-              <img src="https://placehold.jp/200x200.png">
-            </div>
-          </div>
-          <div class="row text-center p-5">
-            <div class="col-4">
-              <img src="https://placehold.jp/200x200.png">
-            </div>
-            <div class="col-4">
-              <img src="https://placehold.jp/200x200.png">
-            </div>
-            <div class="col-4">
-              <img src="https://placehold.jp/200x200.png">
-            </div>
-          </div>
-          <div class="row text-center p-5">
-            <div class="col-4">
-              <img src="https://placehold.jp/200x200.png">
-            </div>
-            <div class="col-4">
-              <img src="https://placehold.jp/200x200.png">
-            </div>
-            <div class="col-4">
-              <img src="https://placehold.jp/200x200.png">
-            </div>
-          </div>
-          <div class="row text-center p-5">
-            <div class="col-4">
-              <img src="https://placehold.jp/200x200.png">
-            </div>
-            <div class="col-4">
-              <img src="https://placehold.jp/200x200.png">
-            </div>
-            <div class="col-4">
-              <img src="https://placehold.jp/200x200.png">
-            </div>
+              {% endif %}
+            {% endif %}
           </div>
         </div>
       </section>

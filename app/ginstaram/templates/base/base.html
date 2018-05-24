@@ -48,18 +48,24 @@
           Ginstagram
         </a>
         <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+        {% if request.session.userid %}
           <li class="nav-item">
-            <a class="nav-link p-2" href="#">投稿</a>
+            <a class="nav-link p-2" href="/post">投稿</a>
           </li>
           <li class="nav-item">
             <a class="nav-link p-2" href="#">ディスカバリー</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link p-2" href="#">プロフィール</a>
+            <a class="nav-link p-2" href="/users">プロフィール</a>
           </li>
           <li class="nav-item">
             <a class="nav-link p-2" href="/users/logout">ログアウト</a>
           </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link p-2" href="/users/login">ログイン</a>
+          </li>
+          {% endif %}
         </ul>
       </nav>
       <div class="mb-5">　</div>

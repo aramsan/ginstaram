@@ -2,6 +2,7 @@
 {% block contents %}
       <!-- timeline section-->
       <section>
+        {% if post_list %}
         {% for post in post_list %}
         <div class="row p-4 text-lefti">
           <div class ="col-4 offset-4">
@@ -13,15 +14,26 @@
               <div class="card-body">
                 <div><a href="#" class="pr-2 text-dark">いいね！</a><a href="#" class="text-dark">コメント</a></div>
                 <div class="pb-2"><span class="mr-2">いいね！</span>{{ post.like }}件</div>
+                <div><span class="mr-2">@{{ post.author.username }}</span>{{ post.text }}</div>
                 {% for comment in post.comment %}
                 <div><span class="mr-2">{{ comment.username }}</span>{{ comment.comment }}</div>
                 {% endfor %}
-                <div class="pt-2"><small><abbr class="timeago text-secondary" title="{{ post.time }}">更新時間</abbr></small></div>
+                <div class="pt-2"><small><abbr class="timeago text-secondary" title="{{ post.time|date:'Y-m-d H:i:s' }}">更新時間</abbr></small></div>
               </div>
             </div>
           </div>
         </div>
         {% endfor %}
+        {% else %} 
+        <div "row p-5">
+          <div class="col-6 offset-3 text-center">
+            <div class="jumbotron jumbotron-fluid">
+              <div class="container">
+                <p class="lead"><a href="/post">投稿</a>して他のユーザーに見つけてもらおう</p>
+              </div>
+            </div>
+          </div>
+        {% endif %}
       </section>
       <!-- /timeline section-->
 
