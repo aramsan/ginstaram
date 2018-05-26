@@ -8,7 +8,7 @@ import datetime
 
 def timeline(request):
     userid = request.session.get('userid')
-    post_list = Post.objects.filter(author=userid).order_by('-postid');
+    post_list = Post.objects.filter(author=userid).order_by('-postid')
     return render(request, 'posts/timeline.html', {'post_list':post_list})
 
 def post(request):
@@ -27,6 +27,9 @@ def postRequest(request):
     creation.save()
     return HttpResponseRedirect(reverse('timeline'))
 
+def discover(request):
+    post_list = Post.objects.all().order_by('-postid')[:99]
+    return render(request, 'posts/discover.html', {'post_list':post_list})
 
 def save_picture_file(f):
     filename = 'static/profile/' + datetime.datetime.today().strftime('%s') + f.name
