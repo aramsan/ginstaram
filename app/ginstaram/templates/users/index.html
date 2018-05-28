@@ -12,8 +12,15 @@
             </div>
             <div class="col-8">
               <div class="row text-left">
-                <div class="col-12">
+                <div class="col-6">
                   <h1>{{ username }}</h1>
+                </div>
+                <div class="col-6">
+                  {% if is_follow %}
+                  <a class="btn btn-primary" href="/users/remove_follow/{{ userid }}">フォロー中</a>
+                  {% elif is_follow == 0%}
+                  <a class="btn btn-outline-primary" href="/users/follow/{{ userid }}">フォロー</a>
+                  {% endif %}
                 </div>
               </div>
               <div class="row text-left">

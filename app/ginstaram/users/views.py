@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .models import Profile
+from .models import Profile, Follow
 from posts.models import Post
 
 import hashlib
@@ -89,11 +89,49 @@ def save_picture_file(f):
     return "/" + filename
 
 def user(request, displayUsername):
+    userid = request.session.get('userid')
     profile = Profile.objects.get(username=displayUsername)
+    isFollow = 1 if Follow.objects.filter(followee=profile.id, follower=userid) else 0
+    if userid == profile.id:
+        isFollow = None
     post_list = Post.objects.filter(author=profile.id).order_by('-postid');
     profileData = {
+    'userid': profile.id,
     'username': profile.username,
     'picture': profile.picture,
-    'post_list': post_list
+    'post_list': post_list,
+    'is_follow': isFollow
     }
     return render(request, 'users/index.html', profileData)
+
+def setFollow(request, followUserId):
+    userid = request.session.get('userid')
+    isFollow = 0
+    if userid:
+        follow = Follow.objects.filter(followee=followUserId, follower=userid)
+        profile = Profile.objects.get(id=followUserId)
+        if profile:
+            follow = Follow.objects.filter(followee=followUserId, follower=userid)
+            if not follow:
+                creation = Follow(followee=Profile(id=followUserId), follower=Profile(id=userid))
+                creation.save()
+            return HttpResponseRedirect('/users/' + profile.username)
+        else:
+            return HttpResponseRedirect('/')
+    else:
+        return HttpResponseRedirect(reverse('login'))
+
+def removeFollow(request, followUserId):
+    userid = request.session.get('userid')
+    isFollow = 0
+    if userid:
+        profile = Profile.objects.get(id=followUserId)
+        if profile:
+            follow = Follow.objects.filter(followee=followUserId, follower=userid)
+            if follow:
+                follow.delete()
+            return HttpResponseRedirect('/users/' + profile.username)
+        else:
+             return HttpResponseRedirect('/')
+    else:
+        return HttpResponseRedirect(reverse('login'))
